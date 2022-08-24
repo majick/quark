@@ -39,7 +39,7 @@ connection_log(const struct connection *c)
 		warn("sock_get_inaddr_str: Couldn't generate adress-string");
 		inaddr_str[0] = '\0';
 	}
-
+    setbuf(stdout, NULL);
 	printf("%s\t%s\t%s%.*d\t%s\t%s%s%s%s%s\n",
 	       tstmp,
 	       inaddr_str,
