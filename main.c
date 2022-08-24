@@ -65,8 +65,8 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	struct group *grp = NULL;
-	struct passwd *pwd = NULL;
+	// struct group *grp = NULL;
+	// struct passwd *pwd = NULL;
 	struct rlimit rlim;
 	struct server srv = {
 		.docindex = "index.html",
@@ -80,17 +80,18 @@ main(int argc, char *argv[])
 	size_t nthreads = 4;
 	size_t nslots = 64;
 	char *servedir = ".";
-	char *user = "nobody";
-	char *group = "nogroup";
+	/* char *user = "nobody";
+	char *group = "nogroup"; */
 
 	ARGBEGIN {
 	case 'd':
 		servedir = EARGF(usage());
 		break;
-	case 'g':
+/*	case 'g':
 		group = EARGF(usage());
 		break;
-	case 'h':
+*/
+    case 'h':
 		srv.host = EARGF(usage());
 		break;
 	case 'i':
@@ -134,10 +135,11 @@ main(int argc, char *argv[])
 	case 'U':
 		udsname = EARGF(usage());
 		break;
-	case 'u':
+/*	case 'u':
 		user = EARGF(usage());
 		break;
-	case 'v':
+*/
+    case 'v':
 		if (spacetok(EARGF(usage()), tok, 4) || !tok[0] || !tok[1] ||
 		    !tok[2]) {
 			usage();
@@ -179,7 +181,7 @@ main(int argc, char *argv[])
 	}
 
 	/* validate user and group */
-	errno = 0;
+	/* errno = 0;
 	if (!user || !(pwd = getpwnam(user))) {
 		die("getpwnam '%s': %s", user ? user : "null",
 		    errno ? strerror(errno) : "Entry not found");
@@ -189,7 +191,7 @@ main(int argc, char *argv[])
 		die("getgrnam '%s': %s", group ? group : "null",
 		    errno ? strerror(errno) : "Entry not found");
 	}
-
+*/
 	/* open a new process group */
 	setpgid(0, 0);
 
@@ -228,7 +230,7 @@ main(int argc, char *argv[])
 	 * kernel by changing epoll-sheduling from a FIFO- to a
 	 * LIFO-model, especially as it doesn't affect performance
 	 */
-	insock = udsname ? sock_get_uds(udsname, pwd->pw_uid, grp->gr_gid) :
+	insock = udsname ? sock_get_uds(udsname, getuid(), getgid() ) :
 	                   sock_get_ips(srv.host, srv.port);
 	if (sock_set_nonblocking(insock)) {
 		return 1;
@@ -288,6 +290,7 @@ main(int argc, char *argv[])
 		eunveil(NULL, NULL);
 
 		/* chroot */
+        /* containerization please 
 		if (chdir(servedir) < 0) {
 			die("chdir '%s':", servedir);
 		}
@@ -299,9 +302,10 @@ main(int argc, char *argv[])
 				die("chroot:");
 			}
 		}
-
+*/
 		/* drop root */
-		if (pwd->pw_uid == 0 || grp->gr_gid == 0) {
+/*
+        if (pwd->pw_uid == 0 || grp->gr_gid == 0) {
 			die("Won't run under root %s for hopefully obvious reasons",
 			    (pwd->pw_uid == 0) ? (grp->gr_gid == 0) ?
 			    "user and group" : "user" : "group");
@@ -332,7 +336,7 @@ main(int argc, char *argv[])
 				die("setuid:");
 			}
 		}
-
+*/
 		if (udsname) {
 			epledge("stdio rpath proc unix", NULL);
 		} else {
