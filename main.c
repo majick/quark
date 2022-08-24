@@ -290,10 +290,10 @@ main(int argc, char *argv[])
 		eunveil(NULL, NULL);
 
 		/* chroot */
-        /* containerization please 
 		if (chdir(servedir) < 0) {
 			die("chdir '%s':", servedir);
 		}
+        /* 
 		if (chroot(".") < 0) {
 			if (errno == EPERM) {
 				die("You need to run as root or have "
