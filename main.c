@@ -293,7 +293,7 @@ main(int argc, char *argv[])
 		if (chdir(servedir) < 0) {
 			die("chdir '%s':", servedir);
 		}
-        /* 
+        
 		if (chroot(".") < 0) {
 			if (errno == EPERM) {
 				die("You need to run as root or have "
@@ -302,7 +302,7 @@ main(int argc, char *argv[])
 				die("chroot:");
 			}
 		}
-*/
+
 		/* drop root */
 /*
         if (pwd->pw_uid == 0 || grp->gr_gid == 0) {
@@ -318,8 +318,8 @@ main(int argc, char *argv[])
 			} else {
 				die("setgroups:");
 			}
-		}
-		if (setgid(grp->gr_gid) < 0) {
+		} */
+		if (setgid(65534) < 0) {
 			if (errno == EPERM) {
 				die("You need to run as root or have "
 				    "CAP_SETGID set");
@@ -328,7 +328,7 @@ main(int argc, char *argv[])
 			}
 
 		}
-		if (setuid(pwd->pw_uid) < 0) {
+		if (setuid(65534) < 0) {
 			if (errno == EPERM) {
 				die("You need to run as root or have "
 				    "CAP_SETUID set");
@@ -336,7 +336,7 @@ main(int argc, char *argv[])
 				die("setuid:");
 			}
 		}
-*/
+
 		if (udsname) {
 			epledge("stdio rpath proc unix", NULL);
 		} else {
