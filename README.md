@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 This README is ported from the actual [quark homepage](https://tools.suckless.org/quark/). The below doesn't really reflect the containerized use case very well, but it's what quark is really for.
 
 # quark
