@@ -21,6 +21,8 @@ In case there is an attack on this infrastructure and the attacker manages to Do
 # TLS-support
 quark does not natively support TLS. A more suckless approach than to implement TLS into it is to use a TLS reverse proxy (e.g. [tlstunnel](https://github.com/hannesm/tlstunnel), [hitch](https://hitch-tls.org/) or [stunnel](https://www.stunnel.org/) ). It accepts encrypted TLS connections and forwards them as unencrypted requests to a server. In this case, one can run such a reverse proxy to listen on a public IP address and forward the requests to a local port or UNIX-domain socket.
 
+A more, y'know, modern thing one might choose to do is just run an actual reverse proxy, like Traefik. The 1.x versions, now kinda depracated, are trivially easy to set up in front of a `quark` container by virtue of sticking a couple of tags on the container. The 2.x versions are needlessly complex, in order to, I dunno, be enterprisey or k8s egressey or something. In any case, `quark` does its job and you can figure out how to stick TLS in front of it however you like.
+
 # Solutions
 - [saait](https://git.codemadness.org/saait/file/README.html) site generator
 - [stagit](https://git.codemadness.org/stagit/file/README.html) git page generator
@@ -30,5 +32,11 @@ You can [browse](https://git.suckless.org/quark) the source code repository or g
 
 `git clone https://git.suckless.org/quark`
 
+or for the containerized, static `musl` version:
+`git clone https://github.com/majick/quark.git`
+
+
 # Author
 Laslo Hunhold (dev@frign.de)
+
+**But not me.** I'm just a maintainer of the shitty version.
