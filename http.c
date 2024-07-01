@@ -135,12 +135,14 @@ decode(const char src[PATH_MAX], char dest[PATH_MAX])
 	uint8_t n;
 	const char *s;
 
-	for (s = src, i = 0; *s; s++, i++) {
-		if (*s == '%' && (sscanf(s + 1, "%2hhx", &n) == 1)) {
+	for (s = src, i = 0; *s; i++) {
+		if (*s == '%' && isxdigit((unsigned char)s[1]) &&
+		    isxdigit((unsigned char)s[2])) {
+			sscanf(s + 1, "%2hhx", &n);
 			dest[i] = n;
-			s += 2;
+			s += 3;
 		} else {
-			dest[i] = *s;
+			dest[i] = *s++;
 		}
 	}
 	dest[i] = '\0';
