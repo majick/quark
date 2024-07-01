@@ -31,7 +31,8 @@ connection_log(const struct connection *c)
 	if (!strftime(tstmp, sizeof(tstmp), "%Y-%m-%dT%H:%M:%SZ",
 	              gmtime(&(time_t){time(NULL)}))) {
 		warn("strftime: Exceeded buffer capacity");
-		/* continue anyway (we accept the truncation) */
+		tstmp[0] = '\0'; /* tstmp contents are undefined on failure */
+		/* continue anyway */
 	}
 
 	/* generate address-string */
